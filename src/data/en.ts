@@ -1,26 +1,27 @@
 import type { LocaleContent } from './types';
 
-// Based on the Nov 2025 CV — update to reflect the current situation.
 export const en: LocaleContent = {
   meta: {
-    title: 'Win-Ken (Kane) Beh, PhD | AI Engineer',
+    title: 'Win-Ken (Kane) Beh, PhD | AI Team Lead',
     description:
-      'AI engineer building on-prem LLM platforms, RAG and agentic systems. PhD in Electrical Engineering from National Taiwan University.',
+      'AI team lead covering AI applications, the team SDLC, a lakehouse data platform with data governance, and in-house inference across on-prem and multi-cloud. PhD in EE, National Taiwan University.',
   },
   name: 'Win-Ken (Kane) Beh',
   intro: [
-    'I am an AI engineer at Raydium, where I run the company\'s internal generative-AI platform. I cover the whole stack on my own: GPU hardware planning, on-prem LLM serving, retrieval and agentic systems, from architecture through operations.',
-    'I received my PhD from the Graduate Institute of Electrical Engineering at National Taiwan University in 2023, with 11 publications.',
+    'I lead an AI team that puts AI into real use inside the enterprise. Besides building AI applications, I define the team’s software development lifecycle (SDLC), build our lakehouse data platform and drive data governance, and run an in-house inference service that spans on-prem and multiple clouds.',
+    'I did my PhD at the Graduate Institute of Electrical Engineering, National Taiwan University, researching algorithms, and I have a background in IC design. After moving to industry I switched to AI, starting as an engineer and now leading the team.',
   ],
   experience: [
     {
-      role: 'AI Engineer',
+      // TODO: confirm title and when the team-lead role started
+      role: 'AI Team Lead',
       org: 'Raydium',
       period: '2023 – Present',
       highlights: [
-        'Built an internal knowledge platform from scratch: OpenAI-compatible LLM serving, RAG and agentic orchestration',
-        'Planned GPU server specs, coordinated vendors, and deployed high-throughput LLM inference',
-        'Built a PDF ingestion → vector DB → agentic RAG pipeline for internal technical search',
+        'Lead the AI team and defined its software development lifecycle (SDLC)',
+        'Built a lakehouse data platform and drive data governance',
+        'Built an in-house inference service with a hybrid on-prem + multi-cloud architecture',
+        'Develop AI applications, including multi-agent document QA and agentic RAG',
       ],
     },
     {
@@ -31,38 +32,50 @@ export const en: LocaleContent = {
     },
   ],
   education: [
-    { degree: 'Ph.D., Electrical Engineering', school: 'National Taiwan University', period: '2018 – 2023' },
+    {
+      degree: 'Ph.D., Electrical Engineering',
+      school: 'National Taiwan University',
+      period: '2018 – 2023',
+      note: 'Research: algorithms',
+    },
     { degree: 'B.S., Electrical Engineering', school: 'National Taiwan University', period: '2014 – 2018' },
   ],
   skills: [
-    { category: 'AI / LLM', items: ['On-prem LLM serving', 'OpenAI-compatible APIs', 'RAG', 'Agents'] },
-    { category: 'Data', items: ['PDF parsing', 'Data cleaning', 'Embeddings', 'Vector DBs'] },
-    { category: 'Development', items: ['Python', 'PyTorch', 'FastAPI', 'REST'] },
-    { category: 'Infrastructure', items: ['Docker', 'Linux', 'GPU management'] },
+    { category: 'Team & Process', items: ['Team leadership', 'AI team SDLC'] },
+    { category: 'AI Applications', items: ['LLMs', 'RAG', 'Multi-agent systems', 'PDF parsing'] },
+    { category: 'Platform', items: ['In-house inference', 'Hybrid on-prem + multi-cloud', 'Docker', 'GPU management'] },
+    { category: 'Data', items: ['Lakehouse', 'Data governance', 'Embeddings', 'Vector DBs'] },
+    { category: 'Development', items: ['Python', 'PyTorch', 'FastAPI'] },
+    { category: 'Background', items: ['Algorithms', 'IC design'] },
   ],
   projectsLead:
-    'Most of my work is about getting LLMs to read large volumes of internal technical documents correctly and answer with sources.',
+    'My work spans AI applications and the inference, data platform and development process that support them.',
   projects: [
     {
       title: 'EDA Tool Assistant: a multi-agent document QA system',
-      meta: 'Raydium · designed and built solo',
+      meta: 'AI application · designed and built solo',
       description:
         'Understands engineers’ questions and finds the right answer in ~70k pages of EDA vendor documentation, improving first-answer accuracy for support and troubleshooting.',
       figure: 'agents',
       highlight: true,
     },
     {
-      title: 'PDF pipeline at scale',
-      meta: 'Raydium',
-      description:
-        'Automated processing of ~100k PDF pages with complex figures and tables into clean, AI-ready corpora for RAG.',
-      figure: 'pdf',
+      title: 'In-house inference service',
+      meta: 'Platform',
+      description: 'A self-hosted model inference service with a hybrid architecture, running on on-prem GPUs and multiple clouds.',
+      figure: 'inference',
     },
     {
-      title: 'Agentic RAG for technical corpora',
-      meta: 'Raydium',
+      title: 'Lakehouse data platform and data governance',
+      meta: 'Data',
+      description: 'A lakehouse-based data platform with data governance in place, serving as the data foundation for our AI applications.',
+      figure: 'lakehouse',
+    },
+    {
+      title: 'Document processing and retrieval at scale',
+      meta: 'AI application',
       description:
-        'A disambiguation → retrieval → evidence-aggregation pipeline for large document collections, so every answer comes with its sources.',
+        'Automated processing of ~100k PDF pages with complex figures and tables, followed by a disambiguation → retrieval → evidence-aggregation agentic RAG pipeline so every answer comes with sources.',
       figure: 'rag',
     },
   ],

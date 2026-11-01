@@ -66,6 +66,12 @@ const join = locale === 'zh' ? '、' : ', ';
               <br />
               <span>{e.school}</span>
               <span class="muted"> · {e.period}</span>
+              {e.note && (
+                <>
+                  <br />
+                  <span class="muted">{e.note}</span>
+                </>
+              )}
             </li>
           ))
         }

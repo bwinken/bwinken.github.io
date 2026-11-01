@@ -13,6 +13,8 @@ export interface Education {
   degree: string;
   school: string;
   period: string;
+  /** 補充說明，例如研究方向 */
+  note?: string;
 }
 
 export interface SkillGroup {
@@ -21,11 +23,11 @@ export interface SkillGroup {
 }
 
 /** 專案示意圖：對應 src/components/figures/ 裡的線條圖 */
-export type FigureName = 'agents' | 'pdf' | 'rag';
+export type FigureName = 'agents' | 'pdf' | 'rag' | 'inference' | 'lakehouse';
 
 export interface Project {
   title: string;
-  /** 標題下方的小字，例如「瑞鼎科技 · 獨立設計與開發」 */
+  /** 標題下方的小字，例如「AI 應用 · 獨立設計與開發」 */
   meta: string;
   description: string;
   figure: FigureName;
