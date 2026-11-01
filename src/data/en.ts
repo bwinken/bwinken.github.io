@@ -1,61 +1,77 @@
 import type { LocaleContent } from './types';
 
-// TODO: Placeholder content — replace with your own.
+// Based on the Nov 2025 CV — update to reflect the current situation.
 export const en: LocaleContent = {
   meta: {
-    title: 'Your Name | Software Engineer',
-    description: 'Personal website of Your Name: experience, projects and contact.',
+    title: 'Win-Ken (Kane) Beh, PhD | AI Engineer',
+    description:
+      'AI engineer building on-prem LLM platforms, RAG and agentic systems. PhD in Electrical Engineering from National Taiwan University.',
   },
-  name: 'Your Name',
-  headline: 'Software engineer focused on backend and cloud architecture',
-  location: 'Taipei, Taiwan',
+  name: 'Win-Ken (Kane) Beh',
+  headline: 'AI Engineer — On-prem LLM Platforms · RAG · Agentic Systems',
+  location: 'Taiwan',
   about: [
-    'I am a software engineer with X years of experience building scalable backend services, with a strong focus on code quality and collaboration.',
-    'I am currently looking for [role type] opportunities in [industry / domain].',
+    'I build enterprise generative-AI systems from 0 to 1: from planning GPU hardware and serving OpenAI-compatible LLMs on-prem, to agentic RAG and multi-agent orchestration. I own the full lifecycle on my own — architecture, development, deployment and operations.',
+    'I hold a PhD from the Graduate Institute of Electrical Engineering at National Taiwan University, with 11 publications and 271 citations.',
   ],
   experience: [
     {
-      company: '[Company]',
-      role: '[Job title]',
+      company: 'Raydium Corp.',
+      role: 'AI Engineer',
       period: 'Jul 2023 – Present',
-      location: 'Taipei',
       highlights: [
-        'Led the rewrite of [system], cutting API response time by 40%.',
-        'Introduced CI/CD, increasing deploy frequency from monthly to several times a week.',
+        'Built an on-prem enterprise knowledge-management platform (GenAI) from scratch, including OpenAI-compatible LLM/LMM serving, RAG and agentic orchestration.',
+        'Planned GPU server and workstation specs, coordinated vendors, and deployed an LLM server for high-throughput inference.',
+        'Built a PDF ingestion → vector DB → agentic RAG pipeline for internal knowledge search.',
+        'Delivered end to end as a solo engineer, from architecture to deployment and operations.',
       ],
     },
     {
-      company: '[Previous company]',
-      role: '[Job title]',
-      period: 'Jul 2021 – Jun 2023',
-      highlights: ['Built [feature] from scratch to launch, serving [N]k users.'],
+      company: 'Phison Electronics',
+      role: 'Intern, Dataset Reduction',
+      period: 'Oct – Nov 2022',
+      highlights: [
+        'Developed a dataset-reduction method that maintains AOI (automated optical inspection) accuracy while identifying the data that matters for training.',
+      ],
     },
   ],
   projects: [
     {
-      name: '[Project name]',
-      description: 'One sentence on the problem it solves, your role, and the outcome.',
-      tech: ['TypeScript', 'React', 'PostgreSQL'],
-      link: 'https://example.com',
-      repo: 'https://github.com/bwinken',
+      name: 'PDF Pipeline at Scale',
+      description:
+        'Automated processing of ~100k PDF pages, including complex figures and tables, turning unstructured documents into clean, AI-ready corpora optimized for RAG.',
+      tech: ['Python', 'PDF parsing', 'Embeddings', 'Vector DB'],
     },
     {
-      name: '[Project name 2]',
-      description: 'One sentence on the problem it solves, your role, and the outcome.',
-      tech: ['Python', 'FastAPI', 'Docker'],
-      repo: 'https://github.com/bwinken',
+      name: 'EDA Tool Assistant (Multi-Agent)',
+      description:
+        'Single-handedly architected and implemented a multi-agent system that understands queries and retrieves correct answers from ~70k pages of EDA vendor PDFs, improving first-answer accuracy for support and troubleshooting.',
+      tech: ['LLM', 'Multi-agent', 'Agentic RAG', 'FastAPI'],
+    },
+    {
+      name: 'Agentic RAG for Technical Corpora',
+      description:
+        'Designed a disambiguation → retrieval → evidence-aggregation pipeline for large technical document collections, so answers are grounded in cited sources.',
+      tech: ['RAG', 'Agents', 'Vector DB'],
     },
   ],
   skills: [
-    { category: 'Languages', items: ['TypeScript', 'Python', 'Go'] },
-    { category: 'Frameworks & Tools', items: ['React', 'Node.js', 'Docker', 'Git'] },
-    { category: 'Cloud & Data', items: ['AWS', 'PostgreSQL', 'Redis'] },
+    { category: 'AI / LLM', items: ['On-prem LLM', 'OpenAI-compatible APIs', 'RAG', 'Agents'] },
+    { category: 'Data', items: ['PDF parsing', 'Data cleaning', 'Embeddings', 'Vector DB'] },
+    { category: 'Languages & Frameworks', items: ['Python', 'PyTorch'] },
+    { category: 'Infrastructure', items: ['Docker', 'Linux', 'GPU management'] },
+    { category: 'Backend / Frontend', items: ['FastAPI', 'REST', 'Internal-tool front-ends'] },
   ],
   education: [
     {
-      school: '[University]',
-      degree: 'B.S. in [Major]',
-      period: '2017 – 2021',
+      school: 'National Taiwan University',
+      degree: 'Ph.D., Graduate Institute of Electrical Engineering',
+      period: 'Jul 2018 – Jul 2023',
+    },
+    {
+      school: 'National Taiwan University',
+      degree: 'B.S., Electrical Engineering',
+      period: 'Jul 2014 – Jul 2018',
     },
   ],
   resume: '',
