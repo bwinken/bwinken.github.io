@@ -1,12 +1,10 @@
 ---
 /** 首頁：兩種語言共用同一個版面，內容來自 src/data/{zh,en}.ts */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from './Header.astro';
-import Hero from './Hero.astro';
-import Experience from './Experience.astro';
+import Profile from './Profile.astro';
+import Overview from './Overview.astro';
 import Projects from './Projects.astro';
-import Skills from './Skills.astro';
-import Contact from './Contact.astro';
+import Publications from './Publications.astro';
 import { content, type Locale } from '../data';
 
 interface Props {
@@ -21,27 +19,20 @@ const updated = new Date().toISOString().slice(0, 10);
 
 <BaseLayout locale={locale}>
   <slot name="head" slot="head" />
-  <Header locale={locale} />
-  <main class="container">
-    <Hero locale={locale} />
-    <Experience locale={locale} />
+  <main class="page">
+    <Profile locale={locale} />
+    <Overview locale={locale} />
     <Projects locale={locale} />
-    <Skills locale={locale} />
-    <Contact locale={locale} />
+    <Publications locale={locale} />
+    <footer class="muted">
+      © {year} {c.name} · {c.ui.lastUpdated} {updated}
+    </footer>
   </main>
-  <footer class="container muted">
-    <p>© {year} {c.name} · {c.ui.lastUpdated} {updated}</p>
-  </footer>
 </BaseLayout>
 
 <style>
   footer {
-    padding-bottom: 48px;
-    font-size: 0.85rem;
-  }
-  footer p {
-    margin: 0;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
+    font-size: var(--fs-small);
+    text-align: center;
   }
 </style>

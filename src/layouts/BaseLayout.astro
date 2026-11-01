@@ -1,4 +1,6 @@
 ---
+import '@fontsource/lato/latin-400.css';
+import '@fontsource/lato/latin-700.css';
 import '../styles/global.css';
 import { content, locales, type Locale } from '../data';
 
@@ -29,21 +31,13 @@ const alternates = (Object.keys(locales) as Locale[]).map((l) => ({
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="profile" />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={locales[locale].ogLocale} />
     <meta name="twitter:card" content="summary" />
-
     <meta name="color-scheme" content="light dark" />
-    <!-- 在畫面繪製前套用深淺色設定，避免閃爍 -->
-    <script is:inline>
-      try {
-        const t = localStorage.getItem('theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-      } catch {}
-    </script>
     <slot name="head" />
   </head>
   <body>

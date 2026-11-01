@@ -1,0 +1,77 @@
+---
+/**
+ * 專案示意圖：簡單的線條圖，代替不能公開的內部系統截圖。
+ * 線條使用連結色、底色使用 --figure，深色模式會自動跟著換。
+ */
+import type { FigureName } from '../data/types';
+
+interface Props {
+  name: FigureName;
+}
+
+const { name } = Astro.props;
+---
+
+<div class="figure" aria-hidden="true">
+  {
+    name === 'agents' && (
+      <svg viewBox="0 0 160 110">
+        <rect x="8" y="14" width="34" height="44" />
+        <rect x="14" y="20" width="34" height="44" class="fill" />
+        <circle cx="96" cy="40" r="10" />
+        <circle cx="134" cy="22" r="8" />
+        <circle cx="134" cy="62" r="8" />
+        <circle cx="96" cy="86" r="8" />
+        <path d="M50 42h34M104 34l22-8M104 46l22 12M96 50v28" />
+      </svg>
+    )
+  }
+  {
+    name === 'pdf' && (
+      <svg viewBox="0 0 160 110">
+        <rect x="10" y="20" width="30" height="40" />
+        <rect x="16" y="26" width="30" height="40" />
+        <rect x="22" y="32" width="30" height="40" class="fill" />
+        <path d="M60 52h22" />
+        <path d="M78 46l6 6-6 6" />
+        <path d="M96 36h50M96 46h50M96 56h38M96 66h44M96 76h30" />
+      </svg>
+    )
+  }
+  {
+    name === 'rag' && (
+      <svg viewBox="0 0 160 110">
+        <circle cx="26" cy="55" r="12" />
+        <path d="M22 51a4 4 0 1 1 5 4v3M26 62v1" />
+        <path d="M40 55h16" />
+        <path d="M52 50l5 5-5 5" />
+        <rect x="62" y="26" width="40" height="58" class="fill" />
+        <path d="M70 38h24M70 48h24M70 58h18M70 68h22" />
+        <path d="M106 55h16" />
+        <path d="M118 50l5 5-5 5" />
+        <rect x="128" y="40" width="24" height="30" />
+        <path d="M133 50h14M133 58h10" />
+      </svg>
+    )
+  }
+</div>
+
+<style>
+  .figure {
+    aspect-ratio: 4 / 3;
+    max-width: 100%;
+    background: var(--figure);
+    display: grid;
+    place-items: center;
+  }
+  svg {
+    width: 86%;
+    height: auto;
+    fill: none;
+    stroke: var(--link);
+    stroke-width: 1.6;
+  }
+  .fill {
+    fill: var(--figure);
+  }
+</style>

@@ -1,38 +1,51 @@
+/*
+ * 設計框架：D1 經典學術頁
+ * - 單欄、最大寬度 800px，像手寫的 HTML：連結就是藍色文字，不用卡片、陰影、圓角標籤
+ * - 區塊之間只靠留白分開；重點作品用淡黃底色標示
+ * - 字體：英文 Lato、中文用系統的黑體（蘋方／微軟正黑／Noto Sans TC）
+ * - 字級：13 / 15 / 16 / 21 / 30（只用這幾個）
+ * - 深色模式跟隨系統設定
+ */
 :root {
-  --bg: #fbfbfa;
-  --surface: #ffffff;
-  --text: #1c1d21;
-  --muted: #5d606b;
-  --border: #e4e4e7;
-  --accent: #2357d9;
-  --accent-soft: #e8eefc;
-  --radius: 12px;
-  --maxw: 760px;
-  --font: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, -apple-system,
-    'Segoe UI', Roboto, sans-serif;
+  /* 色彩 */
+  --bg: #ffffff;
+  --fg: #1f1f1f;
+  --muted: #6b6b6b;
+  --link: #1a63c6;
+  --highlight: #fff8d6;
+  --figure: #eef1f5;
+  --line: #e6e6e6;
+
+  /* 字體 */
+  --font: 'Lato', 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', 'Helvetica Neue', Arial, sans-serif;
+
+  /* 字級 */
+  --fs-small: 13px;
+  --fs-meta: 15px;
+  --fs-body: 16px;
+  --fs-h2: 21px;
+  --fs-name: 30px;
+
+  /* 間距與版面 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 14px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --maxw: 800px;
 }
 
-/* 系統為深色、且使用者沒有手動選淺色時 */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #111215;
-    --surface: #1a1b20;
-    --text: #e8e8ea;
-    --muted: #a1a3ad;
-    --border: #2c2e35;
-    --accent: #7ea2ff;
-    --accent-soft: #1f2a46;
+  :root {
+    --bg: #16181c;
+    --fg: #e4e4e4;
+    --muted: #9b9ea4;
+    --link: #7fb0ff;
+    --highlight: #2c2919;
+    --figure: #22262d;
+    --line: #2c2f35;
+    color-scheme: dark;
   }
-}
-/* 使用者手動選深色 */
-:root[data-theme='dark'] {
-  --bg: #111215;
-  --surface: #1a1b20;
-  --text: #e8e8ea;
-  --muted: #a1a3ad;
-  --border: #2c2e35;
-  --accent: #7ea2ff;
-  --accent-soft: #1f2a46;
 }
 
 *,
@@ -41,120 +54,65 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 72px;
-}
-
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text);
+  color: var(--fg);
   font-family: var(--font);
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: var(--fs-body);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 a {
-  color: var(--accent);
+  color: var(--link);
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
 }
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--accent);
+a:focus-visible {
+  outline: 2px solid var(--link);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 h1,
 h2,
 h3 {
+  margin: 0;
+  font-weight: 400;
   line-height: 1.3;
+  text-wrap: balance;
+}
+
+p {
   margin: 0;
 }
 
-.container {
-  width: 100%;
+.page {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: var(--space-5) 16px;
+  display: grid;
+  gap: var(--space-5);
 }
 
-.section {
-  padding: 48px 0;
-  border-top: 1px solid var(--border);
-}
-.section > h2 {
-  font-size: 1.35rem;
-  margin-bottom: 20px;
+.section-title {
+  font-size: var(--fs-h2);
+  margin-bottom: var(--space-3);
 }
 
 .muted {
   color: var(--muted);
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.tags li {
-  font-size: 0.8rem;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-.btn:hover {
-  text-decoration: none;
-  border-color: var(--accent);
-}
-.btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* 列印（例如面試官直接列印網頁）時隱藏互動元件 */
 @media print {
-  .no-print {
-    display: none !important;
-  }
   :root {
     --bg: #fff;
-    --surface: #fff;
-    --text: #000;
-    --muted: #333;
+    --fg: #000;
+    --highlight: #fff;
   }
-  .section {
-    padding: 16px 0;
-    break-inside: avoid-page;
+  .no-print {
+    display: none !important;
   }
 }

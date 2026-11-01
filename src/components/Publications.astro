@@ -1,0 +1,52 @@
+---
+/** 論文列表：publications 為空時整個區塊不顯示 */
+import { content, type Locale } from '../data';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = content[locale];
+---
+
+{
+  c.publications.length > 0 && (
+    <section>
+      <h2 class="section-title">{c.ui.publications}</h2>
+      <ol class="pubs">
+        {c.publications.map((p) => (
+          <li>
+            {p.link ? (
+              <a href={p.link} target="_blank" rel="noopener">
+                {p.title}
+              </a>
+            ) : (
+              <span>{p.title}</span>
+            )}
+            <div class="muted">{p.authors}</div>
+            <div class="venue">{p.venue}</div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+<style>
+  .pubs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+    font-size: var(--fs-meta);
+  }
+  .pubs a,
+  .pubs span {
+    font-weight: 700;
+  }
+  .venue {
+    font-style: italic;
+  }
+</style>

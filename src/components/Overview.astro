@@ -1,0 +1,145 @@
+---
+/**
+ * 概覽：一打開就看到的經歷（左）與技能、學歷（右）。
+ * 手機上會排成單欄：經歷 → 技能 → 學歷。
+ */
+import { content, type Locale } from '../data';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = content[locale];
+const join = locale === 'zh' ? '、' : ', ';
+---
+
+<section class="overview">
+  <div class="col">
+    <h2 class="section-title">{c.ui.experience}</h2>
+    <ol class="jobs">
+      {
+        c.experience.map((job) => (
+          <li>
+            <div class="row">
+              <span>
+                <strong>{job.role}</strong>
+                {locale === 'zh' ? '，' : ', '}
+                {job.org}
+              </span>
+              <span class="when muted">{job.period}</span>
+            </div>
+            {job.highlights && job.highlights.length > 0 && (
+              <ul class="highlights">
+                {job.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <div class="col side">
+    <div>
+      <h2 class="section-title">{c.ui.skills}</h2>
+      <dl class="skills">
+        {
+          c.skills.map((g) => (
+            <div>
+              <dt class="muted">{g.category}</dt>
+              <dd>{g.items.join(join)}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <div>
+      <h2 class="section-title">{c.ui.education}</h2>
+      <ul class="edu">
+        {
+          c.education.map((e) => (
+            <li>
+              <strong>{e.degree}</strong>
+              <br />
+              <span>{e.school}</span>
+              <span class="muted"> · {e.period}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .overview {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  @media (min-width: 720px) {
+    .overview {
+      grid-template-columns: minmax(0, 1fr) 250px;
+    }
+  }
+  .side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+  ol,
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .jobs {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-3);
+  }
+  strong {
+    font-weight: 700;
+  }
+  .when {
+    font-size: var(--fs-meta);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .highlights {
+    margin-top: var(--space-1);
+    padding-left: 1.1em;
+    list-style: disc;
+    display: grid;
+    gap: 2px;
+    font-size: var(--fs-meta);
+  }
+  .highlights li::marker {
+    color: var(--muted);
+  }
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .skills dt {
+    font-size: var(--fs-small);
+  }
+  .skills dd {
+    margin: 0;
+    font-size: var(--fs-meta);
+  }
+  .edu {
+    display: grid;
+    gap: var(--space-3);
+    font-size: var(--fs-meta);
+  }
+</style>

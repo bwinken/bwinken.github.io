@@ -1,5 +1,7 @@
 ---
+/** 專案：左邊示意圖、右邊說明；highlight 的項目會加上淡黃底色 */
 import { content, type Locale } from '../data';
+import ProjectFigure from './ProjectFigure.astro';
 
 interface Props {
   locale: Locale;
@@ -9,33 +11,25 @@ const { locale } = Astro.props;
 const c = content[locale];
 ---
 
-<section class="section" id="projects">
-  <h2>{c.ui.sections.projects}</h2>
-  <div class="grid">
+<section>
+  <h2 class="section-title">{c.ui.projects}</h2>
+  {c.projectsLead && <p class="lead">{c.projectsLead}</p>}
+  <div class="list">
     {
       c.projects.map((p) => (
-        <article class="card">
-          <h3>{p.name}</h3>
-          <p>{p.description}</p>
-          <ul class="tags">
-            {p.tech.map((t) => (
-              <li>{t}</li>
-            ))}
-          </ul>
-          {(p.link || p.repo) && (
-            <div class="links">
-              {p.link && (
-                <a href={p.link} target="_blank" rel="noopener">
-                  {c.ui.viewDemo} ↗
-                </a>
-              )}
-              {p.repo && (
-                <a href={p.repo} target="_blank" rel="noopener">
-                  {c.ui.viewCode} ↗
-                </a>
-              )}
-            </div>
-          )}
+        <article class:list={['project', { highlight: p.highlight }]}>
+          <ProjectFigure name={p.figure} />
+          <div>
+            {p.link ? (
+              <a class="title" href={p.link} target="_blank" rel="noopener">
+                {p.title}
+              </a>
+            ) : (
+              <span class="title">{p.title}</span>
+            )}
+            <div class="meta muted">{p.meta}</div>
+            <p>{p.description}</p>
+          </div>
         </article>
       ))
     }
@@ -43,30 +37,38 @@ const c = content[locale];
 </section>
 
 <style>
-  .grid {
+  .lead {
+    margin-bottom: var(--space-3);
+  }
+  .list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    gap: var(--space-2);
   }
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+  .project {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+    padding: var(--space-3) 10px;
   }
-  h3 {
-    font-size: 1.05rem;
+  @media (min-width: 560px) {
+    .project {
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: var(--space-4);
+      align-items: center;
+    }
+  }
+  .highlight {
+    background: var(--highlight);
+  }
+  .title {
+    color: var(--link);
+    font-weight: 700;
+  }
+  .meta {
+    font-size: var(--fs-meta);
   }
   p {
-    margin: 0;
-    flex: 1;
-  }
-  .links {
-    display: flex;
-    gap: 16px;
-    font-size: 0.92rem;
+    margin-top: var(--space-1);
   }
 </style>

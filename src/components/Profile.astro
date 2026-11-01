@@ -1,0 +1,127 @@
+---
+/** 頁首：姓名、自我介紹、連結列、照片 */
+import { content, locales, shared, type Locale } from '../data';
+import EmailLink from './EmailLink.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = content[locale];
+const other: Locale = locale === 'zh' ? 'en' : 'zh';
+---
+
+<header class="profile">
+  <div class="text">
+    <h1 class="name">{c.name}</h1>
+    {c.intro.map((p) => <p set:html={p} />)}
+    <p class="links">
+      <EmailLink label="Email" />
+      {
+        c.resume && (
+          <>
+            <span class="sep">/</span>
+            <a href={c.resume} target="_blank" rel="noopener">
+              {c.ui.resume}
+            </a>
+          </>
+        )
+      }
+      {
+        shared.links.map((l) => (
+          <>
+            <span class="sep">/</span>
+            <a href={l.href} target="_blank" rel="noopener me">
+              {l.label}
+            </a>
+          </>
+        ))
+      }
+      <span class="sep no-print">/</span>
+      <a class="no-print" href={locales[other].path} hreflang={locales[other].htmlLang} data-lang-switch={other}>
+        {c.ui.switchLanguage}
+      </a>
+    </p>
+  </div>
+  {
+    shared.avatar ? (
+      <img class="photo" src={shared.avatar} alt={c.ui.photoAlt} width="160" height="160" />
+    ) : (
+      <div class="photo placeholder" aria-hidden="true">
+        {shared.initials}
+      </div>
+    )
+  }
+</header>
+
+<script>
+  // 手動切換語言時記住，之後首頁就不會再自動導向
+  document.querySelector('[data-lang-switch]')?.addEventListener('click', (e) => {
+    const lang = (e.currentTarget as HTMLElement).dataset.langSwitch;
+    try {
+      if (lang) localStorage.setItem('lang', lang);
+    } catch {}
+  });
+</script>
+
+<style>
+  .profile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  @media (min-width: 640px) {
+    .profile {
+      grid-template-columns: 1fr 160px;
+      gap: var(--space-5);
+    }
+  }
+  .text {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .name {
+    font-size: var(--fs-name);
+    text-align: center;
+    margin-bottom: var(--space-2);
+  }
+  .links {
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+  .sep {
+    color: var(--muted);
+    margin: 0 0.5em;
+  }
+  .photo {
+    width: 160px;
+    max-width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    justify-self: center;
+    order: -1;
+  }
+  @media (min-width: 640px) {
+    .photo {
+      order: 0;
+    }
+  }
+  .placeholder {
+    display: grid;
+    place-items: center;
+    background: var(--figure);
+    color: var(--link);
+    font-size: 40px;
+  }
+  @media (max-width: 639px) {
+    .photo {
+      width: 120px;
+    }
+    .placeholder {
+      font-size: 30px;
+    }
+  }
+</style>
