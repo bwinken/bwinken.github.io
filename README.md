@@ -16,7 +16,7 @@
 | `src/data/en.ts` | 英文內容（欄位與中文版相同） |
 
 - **大頭照**：把圖片放到 `public/avatar.jpg`，再把 `shared.ts` 的 `avatar` 設為 `'/avatar.jpg'`。
-- **履歷 PDF**：把檔案放到 `public/`（例如 `public/resume-zh.pdf`），再把 `zh.ts` / `en.ts` 的 `resume` 設為 `'/resume-zh.pdf'`。沒有設定時，「下載履歷」按鈕會自動隱藏。
+- **履歷 PDF**：把檔案放到 `public/`（例如 `public/resume-zh.pdf`），再把 `zh.ts` / `en.ts` 的 `resume` 設為 `'/resume-zh.pdf'`。設定後連結列會多出「履歷／CV」連結。
 - **新增經歷或專案**：在對應陣列裡多加一個物件即可。專案的 `highlight: true` 會加上淡黃底色，`figure` 選擇示意圖（`agents`／`pdf`／`rag`，圖在 `src/components/ProjectFigure.astro`）。
 - **論文**：填進 `publications` 陣列；空的時候整個「論文」區塊不會顯示。
 
