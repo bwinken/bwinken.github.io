@@ -1,0 +1,19 @@
+---
+import Home from '../components/Home.astro';
+---
+
+<Home locale="zh">
+  <!--
+    第一次造訪、且瀏覽器語言不是中文時，自動導向英文版。
+    使用者手動切換過語言（存在 localStorage）就不再自動導向。
+  -->
+  <script is:inline slot="head">
+    try {
+      const isBot = /bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent);
+      const saved = localStorage.getItem('lang');
+      const langs = navigator.languages || [navigator.language || ''];
+      const prefersZh = langs.some((l) => l.toLowerCase().startsWith('zh'));
+      if (!isBot && saved !== 'zh' && (saved === 'en' || !prefersZh)) location.replace('/en/');
+    } catch {}
+  </script>
+</Home>

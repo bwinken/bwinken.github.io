@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import { content, locales, type Locale } from '../data';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { meta } = content[locale];
+const site = Astro.site ?? new URL('https://bwinken.github.io');
+const canonical = new URL(locales[locale].path, site).href;
+const alternates = (Object.keys(locales) as Locale[]).map((l) => ({
+  hreflang: locales[l].htmlLang,
+  href: new URL(locales[l].path, site).href,
+}));
+---
+
+<!doctype html>
+<html lang={locales[locale].htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locales[locale].ogLocale} />
+    <meta name="twitter:card" content="summary" />
+
+    <meta name="color-scheme" content="light dark" />
+    <!-- 在畫面繪製前套用深淺色設定，避免閃爍 -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

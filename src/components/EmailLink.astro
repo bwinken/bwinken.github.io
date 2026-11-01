@@ -1,0 +1,32 @@
+---
+/**
+ * Email 連結：網址不直接寫在 HTML 裡，而是在瀏覽器端用 JS 組出 mailto:，
+ * 可以擋掉大部分收集 Email 的爬蟲。
+ * showAddress=true 時，連結文字會顯示完整 Email。
+ */
+import { shared } from '../data';
+
+interface Props {
+  label: string;
+  class?: string;
+  showAddress?: boolean;
+}
+
+const { label, class: className, showAddress = false } = Astro.props;
+---
+
+<a
+  class={className}
+  href="#contact"
+  data-email-user={shared.email.user}
+  data-email-domain={shared.email.domain}
+  data-show-address={showAddress ? 'true' : undefined}>{label}</a
+>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('a[data-email-user]').forEach((a) => {
+    const address = `${a.dataset.emailUser}@${a.dataset.emailDomain}`;
+    a.href = `mailto:${address}`;
+    if (a.dataset.showAddress) a.textContent = address;
+  });
+</script>

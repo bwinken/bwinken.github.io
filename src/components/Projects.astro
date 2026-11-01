@@ -1,0 +1,72 @@
+---
+import { content, type Locale } from '../data';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = content[locale];
+---
+
+<section class="section" id="projects">
+  <h2>{c.ui.sections.projects}</h2>
+  <div class="grid">
+    {
+      c.projects.map((p) => (
+        <article class="card">
+          <h3>{p.name}</h3>
+          <p>{p.description}</p>
+          <ul class="tags">
+            {p.tech.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+          {(p.link || p.repo) && (
+            <div class="links">
+              {p.link && (
+                <a href={p.link} target="_blank" rel="noopener">
+                  {c.ui.viewDemo} ↗
+                </a>
+              )}
+              {p.repo && (
+                <a href={p.repo} target="_blank" rel="noopener">
+                  {c.ui.viewCode} ↗
+                </a>
+              )}
+            </div>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  h3 {
+    font-size: 1.05rem;
+  }
+  p {
+    margin: 0;
+    flex: 1;
+  }
+  .links {
+    display: flex;
+    gap: 16px;
+    font-size: 0.92rem;
+  }
+</style>

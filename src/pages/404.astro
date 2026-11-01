@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="zh">
+  <main class="container wrap">
+    <h1>404</h1>
+    <p>找不到這個頁面。 / Page not found.</p>
+    <p>
+      <a class="btn" href="/">回首頁</a>
+      <a class="btn" href="/en/">Back to home</a>
+    </p>
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap {
+    padding: 96px 16px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  .btn {
+    margin: 0 4px;
+  }
+</style>
