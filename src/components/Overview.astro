@@ -1,7 +1,8 @@
 ---
 /**
- * 概覽：一打開就看到的經歷（左）與技能、學歷（右）。
- * 手機上會排成單欄：經歷 → 技能 → 學歷。
+ * 概覽：一打開就看到的經歷時間軸（左）與技能標籤（右）。
+ * 時間軸把工作和學歷合在一起，依開始年份由新到舊排列。
+ * 手機上排成單欄：時間軸 → 技能。
  */
 import { content, type Locale } from '../data';
 
@@ -11,71 +12,70 @@ interface Props {
 
 const { locale } = Astro.props;
 const c = content[locale];
-const join = locale === 'zh' ? '、' : ', ';
+const comma = locale === 'zh' ? '，' : ', ';
+const startYear = (period: string) => Number(period.match(/\d{4}/)?.[0] ?? 0);
+
+type Item = {
+  kind: 'work' | 'edu';
+  title: string;
+  org: string;
+  period: string;
+  highlights?: string[];
+  note?: string;
+};
+
+const items: Item[] = [
+  ...c.experience.map((e) => ({ kind: 'work' as const, title: e.role, org: e.org, period: e.period, highlights: e.highlights })),
+  ...c.education.map((e) => ({ kind: 'edu' as const, title: e.degree, org: e.school, period: e.period, note: e.note })),
+].sort((a, b) => startYear(b.period) - startYear(a.period));
 ---
 
 <section class="overview">
-  <div class="col">
+  <div>
     <h2 class="section-title">{c.ui.experience}</h2>
-    <ol class="jobs">
+    <ol class="timeline">
       {
-        c.experience.map((job) => (
-          <li>
-            <div class="row">
-              <span>
-                <strong>{job.role}</strong>
-                {locale === 'zh' ? '，' : ', '}
-                {job.org}
-              </span>
-              <span class="when muted">{job.period}</span>
+        items.map((it, i) => (
+          <li class:list={['item', it.kind, { current: i === 0 }]}>
+            <span class="when muted">{it.period}</span>
+            <div class="body">
+              <span class="when-inline muted">{it.period}</span>
+              <div>
+                <strong>{it.title}</strong>
+                {comma}
+                {it.org}
+                {it.kind === 'edu' && <span class="kind">{c.ui.education}</span>}
+              </div>
+              {it.note && <div class="note muted">{it.note}</div>}
+              {it.highlights && it.highlights.length > 0 && (
+                <ul class="highlights">
+                  {it.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-            {job.highlights && job.highlights.length > 0 && (
-              <ul class="highlights">
-                {job.highlights.map((h) => (
-                  <li>{h}</li>
-                ))}
-              </ul>
-            )}
           </li>
         ))
       }
     </ol>
   </div>
 
-  <div class="col side">
-    <div>
-      <h2 class="section-title">{c.ui.skills}</h2>
-      <dl class="skills">
-        {
-          c.skills.map((g) => (
-            <div>
-              <dt class="muted">{g.category}</dt>
-              <dd>{g.items.join(join)}</dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-    <div>
-      <h2 class="section-title">{c.ui.education}</h2>
-      <ul class="edu">
-        {
-          c.education.map((e) => (
-            <li>
-              <strong>{e.degree}</strong>
-              <br />
-              <span>{e.school}</span>
-              <span class="muted"> · {e.period}</span>
-              {e.note && (
-                <>
-                  <br />
-                  <span class="muted">{e.note}</span>
-                </>
-              )}
-            </li>
-          ))
-        }
-      </ul>
+  <div>
+    <h2 class="section-title">{c.ui.skills}</h2>
+    <div class="skills">
+      {
+        c.skills.map((g) => (
+          <div>
+            <h3 class="group muted">{g.category}</h3>
+            <ul class="tags">
+              {g.items.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -88,13 +88,8 @@ const join = locale === 'zh' ? '、' : ', ';
   }
   @media (min-width: 720px) {
     .overview {
-      grid-template-columns: minmax(0, 1fr) 250px;
+      grid-template-columns: minmax(0, 1fr) 260px;
     }
-  }
-  .side {
-    display: grid;
-    gap: var(--space-5);
-    align-content: start;
   }
   ol,
   ul {
@@ -102,23 +97,61 @@ const join = locale === 'zh' ? '、' : ', ';
     padding: 0;
     list-style: none;
   }
-  .jobs {
-    display: grid;
-    gap: var(--space-4);
-  }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0 var(--space-3);
-  }
   strong {
     font-weight: 700;
+  }
+
+  /* ---------- 時間軸 ---------- */
+  .item {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 0 var(--space-3);
   }
   .when {
     font-size: var(--fs-meta);
     font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+    text-align: right;
+    padding-top: 1px;
+  }
+  .when-inline {
+    display: none;
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+  }
+  .body {
+    position: relative;
+    padding: 0 0 var(--space-4) 22px;
+    border-left: 1px solid var(--line);
+  }
+  .item:last-child .body {
+    border-left-color: transparent;
+    padding-bottom: 0;
+  }
+  /* 節點：目前的工作實心，其餘空心 */
+  .body::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 7px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--link);
+    background: var(--bg);
+  }
+  .current .body::before {
+    background: var(--link);
+  }
+  .edu .body::before {
+    border-color: var(--muted);
+  }
+  .kind {
+    margin-left: var(--space-2);
+    font-size: var(--fs-small);
+    color: var(--muted);
+  }
+  .note {
+    font-size: var(--fs-meta);
   }
   .highlights {
     margin-top: var(--space-1);
@@ -131,21 +164,42 @@ const join = locale === 'zh' ? '、' : ', ';
   .highlights li::marker {
     color: var(--muted);
   }
+  @media (max-width: 479px) {
+    .item {
+      grid-template-columns: minmax(0, 1fr);
+      padding-left: 6px;
+    }
+    .when {
+      display: none;
+    }
+    .when-inline {
+      display: block;
+    }
+    .body::before {
+      top: 4px;
+    }
+  }
+
+  /* ---------- 技能標籤 ---------- */
   .skills {
-    margin: 0;
     display: grid;
     gap: var(--space-3);
   }
-  .skills dt {
+  .group {
     font-size: var(--fs-small);
+    margin-bottom: 6px;
   }
-  .skills dd {
-    margin: 0;
-    font-size: var(--fs-meta);
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
-  .edu {
-    display: grid;
-    gap: var(--space-3);
-    font-size: var(--fs-meta);
+  .tags li {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--bg);
   }
 </style>
