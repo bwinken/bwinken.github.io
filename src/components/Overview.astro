@@ -1,8 +1,7 @@
 ---
 /**
- * 概覽：一打開就看到的經歷時間軸（左）與技能標籤（右）。
+ * 概覽：經歷時間軸，下面接技能標籤（上下排列，不並排）。
  * 時間軸把工作和學歷合在一起，依開始年份由新到舊排列。
- * 手機上排成單欄：時間軸 → 技能。
  */
 import { content, type Locale } from '../data';
 
@@ -83,13 +82,7 @@ const items: Item[] = [
 <style>
   .overview {
     display: grid;
-    grid-template-columns: 1fr;
     gap: var(--space-5);
-  }
-  @media (min-width: 720px) {
-    .overview {
-      grid-template-columns: minmax(0, 1fr) 260px;
-    }
   }
   ol,
   ul {
@@ -188,6 +181,19 @@ const items: Item[] = [
   .group {
     font-size: var(--fs-small);
     margin-bottom: 6px;
+  }
+  /* 寬螢幕：分類名稱在左、標籤在右，左欄寬度與時間軸的年份欄對齊 */
+  @media (min-width: 480px) {
+    .skills > div {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 0 var(--space-3);
+      align-items: baseline;
+    }
+    .group {
+      text-align: right;
+      margin-bottom: 0;
+    }
   }
   .tags {
     display: flex;
